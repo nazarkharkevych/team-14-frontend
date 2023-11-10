@@ -1,20 +1,15 @@
 import React from "react";
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.scss'
 
-class App extends React.Component {
-  render() {
-    return (
-      <>
-        <h1>
-          Hello Team-14
-        </h1>
-        <button type="button" className="btn btn-primary">
-          This is a bootstrap button
-        </button>
-      </>
-    );
-  }
-}
+export const App = () => {
+  return (
+    <div className="App">
+      Hello team-14
+    </div>
+  )
+};
+
 
 export default App;
