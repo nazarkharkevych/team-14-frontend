@@ -6,4 +6,21 @@
     height: 100vh;
     z-index: 1;
   }
+
+  &__sidebar {
+    width: 25vw;
+    height: 100%;
+
+    background: rgba($color: #fff, $alpha: .7);
+  }
+
+  & .leaflet-control-zoom {
+    position: absolute;
+    left: 95vw;
+    top: 30vh;
+  }
+
+  & button {
+    margin-bottom: 20px;
+  }
 }
