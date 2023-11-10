@@ -22,6 +22,12 @@ To create a development build:
 npm run build-dev
 ```
 
+To run in browser:
+
+```sh
+npm start
+```
+
 ## Running
 
 Open the file `dist/index.html` in your browser
