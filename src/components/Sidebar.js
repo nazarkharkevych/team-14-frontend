@@ -44,9 +44,7 @@ function SideBar({ setVisiblePath, newPosition, editedMark, marks }) {
         <ul>
           {filteredMarks.map(mark => (
             <li key={mark.id}>
-              <button type='button'>
-                {mark.name + ' ' + mark.address}
-              </button>
+              {mark.name + ' ' + mark.address}
             </li>
           ))}
         </ul>
