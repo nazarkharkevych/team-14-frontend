@@ -11,45 +11,86 @@ const initBoxes = {
   'Вбиральня для людей з інвалідністю': false,
 };
 
+// const markDummy = {
+//   "name": "Сільпо",
+//   "address": "Київ, Просп. Григоренка Петра, 23",
+//   "hours": "07:30-23:00",
+//   "features": ["Пандус"],
+//   "source": "Сільпо",
+//   "icon": "iconShop",
+//   "description": "",
+//   "coordinates": [50.40541083251623, 30.63147954054484]
+// };
+
 const Form = ({ editedMark, newPosition }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [features, setFeatures] = useState(initBoxes);
 
   const onBoxChange = (e) => {
-    console.log(e.target.value)
-
+    e.target.checked
     setFeatures(prev => ({
       ...prev,
-      [e.target.name]: !prev[e.target.name]
+      [e.target.name]: e.target.checked
     }))
   }
 
-  useEffect(() => {
-    // if (newPosition) {
-    //   console.log(2)
-    //   setName('');
-    //   setDescription('');
-    //   setFeatures(initBoxes);
-    // }
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    if (editedMark) {
-      setName(editedMark.name);
-      setDescription(editedMark.description);
-      setFeatures(prev => {
-        const res = {...initBoxes};
+    console.log(features);
 
-        for(const param of editedMark.features) {
-          res[param] = !res[param]
-        }
+    fetch('https://team-14-backend-production-dd0b.up.railway.app/api/points/', {
+      method: 'post',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        name: name,
+        description: description,
+        address: '',
+        hours: '',
+        source: 'User',
+        features: Object.entries(features).filter(([key, value]) => {
+          if (value) {
+            return true
+          }
 
-        return res;
-      })
-    }
-  }, [editedMark]);
+          return false
+        }),
+        icon: "iconLandmark",
+        coordinates: [newPosition.lat, newPosition.lng]
+       })
+    })
+    .then(res => console.log(res))
+      .catch(err => console.log(err))
+  }
+
+  // useEffect(() => {
+  //   if (newPosition) {
+  //     console.log(2)
+  //     setName('');
+  //     setDescription('');
+  //     setFeatures(initBoxes);
+  //   }
+
+  //   console.log(newPosition);
+
+  //   if (editedMark) {
+  //     setName(editedMark.name);
+  //     setDescription(editedMark.description);
+  //     setFeatures(prev => {
+  //       const res = {...initBoxes};
+
+  //       for(const param of editedMark.features) {
+  //         res[param] = !res[param]
+  //       }
+
+  //       return res;
+  //     })
+  //   }
+  // }, [editedMark, newPosition]);
 
   return (
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="row mb-3">
           <label htmlFor="inputEmail3" className="col-sm-2 col-form-label">Назва</label>
           <div className="col-sm-10">
