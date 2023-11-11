@@ -12,8 +12,8 @@
     "build-dev": "webpack --mode development",
     "build-prod": "webpack --mode production",
     "start": "webpack-dev-server --mode development",
-    "predeploy" : "npm run build-prod",
-    "deploy" : "gh-pages -d dist"
+    "predeploy": "npm run build-prod",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "bootstrap": "^5.3.2",
@@ -32,6 +32,7 @@
     "css-loader": "^6.8.1",
     "eslint": "^8.53.0",
     "eslint-plugin-react": "^7.33.2",
+    "file-loader": "^6.2.0",
     "gh-pages": "^6.0.0",
     "html-webpack-plugin": "^5.5.3",
     "node-sass": "^9.0.0",
