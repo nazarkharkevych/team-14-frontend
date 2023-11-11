@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss'
 import { MapContainer, TileLayer, Polyline, Marker, Popup } from 'react-leaflet'
 import LocationMarker from "./components/LocationMarker";
 import SideBar from "./components/Sidebar";
-import marks from './marks.json';
+// import marks from './marks.json';
 import icons from './images/incons';
 
 const App = () => {
@@ -15,6 +15,7 @@ const App = () => {
   });
   const [newPosition, setNewPosition] = useState(null);
   const [editedMark, setEditedMark] = useState(null);
+  const [marks, setMarks] = useState([]);
 
   const mapCenter = [50.40131467149746, 30.63246659343737];
   const startPosition = [50.40113235969953, 30.636320114135746];
@@ -36,6 +37,12 @@ const App = () => {
     [50.40533452635472, 30.631309747695926],
   ];
 
+  useEffect(() => {
+    fetch('https://team-14-backend-production-dd0b.up.railway.app/api/points/')
+      .then(res => res.json())
+      .then(data => setMarks(data))
+  }, []);
+
   return (
     <div className="App">
       <MapContainer
@@ -43,14 +50,14 @@ const App = () => {
         zoom={16}
         scrollWheelZoom={true}
       >
-        <SideBar setVisiblePath={setVisiblePath} newPosition={newPosition} editedMark={editedMark} />
+        <SideBar setVisiblePath={setVisiblePath} newPosition={newPosition} editedMark={editedMark} marks={marks} />
 
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {marks.map(mark => (
+        {marks.length && marks.map(mark => (
           <Marker
             key={mark.id}
             alt={mark.name || "Точка інклюзивності"}

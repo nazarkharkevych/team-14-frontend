@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Form from './Form';
-import marks from '../marks.json';
 import CenterMap from './CenterMap';
 
-function SideBar({ setVisiblePath, newPosition, editedMark }) {
+function SideBar({ setVisiblePath, newPosition, editedMark, marks }) {
   const [input, setInput] = useState('');
 
   const filteredMarks = useMemo(() => {
@@ -17,11 +16,21 @@ function SideBar({ setVisiblePath, newPosition, editedMark }) {
 
       return false; 
     })
-  }, [input]);
+  }, [input, marks]);
 
   const onChangeInput = (e) => {
     setInput(e.target.value);
   };
+
+  // useEffect(() => {
+  //   const bar = document.querySelector('.App__sidebar');
+  
+  //   // bar.addEventListener('click', (e) => {
+  //   //   if (e.target.type !== 'checkbox') {
+  //   //     e.stopPropagation();
+  //   //   }
+  //   // })
+  // }, []);
 
   return (
     <div
