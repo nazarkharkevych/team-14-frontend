@@ -2,106 +2,113 @@ import React, { useState } from "react";
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss'
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
-import LocationMarker from "./components/LocationMarket";
+import { MapContainer, TileLayer, Polyline, Marker, Popup } from 'react-leaflet'
+import LocationMarker from "./components/LocationMarker";
+import SideBar from "./components/Sidebar";
+import marks from './marks.json';
+import icons from './images/incons';
 
-export const App = () => {
-  const [active, setActive] = useState(false);
+const App = () => {
+  const [visiblePath, setVisiblePath] = useState({
+    regular: false,
+    inclusive: false
+  });
+  const [newPosition, setNewPosition] = useState(null);
+  const [editedMark, setEditedMark] = useState(null);
+
+  const mapCenter = [50.40131467149746, 30.63246659343737];
+  const startPosition = [50.40113235969953, 30.636320114135746];
+
+  const regularPath = [
+    [50.40113235969953, 30.636320114135746],
+    [50.40229833588288, 30.635842680931095],
+    [50.40305056335951, 30.63648641109467],
+    [50.40399766915728, 30.63549399375916],
+    [50.40334119350525, 30.632575750350956],
+    [50.40533452635472, 30.631309747695926],
+  ];
+
+  const inclusivePath = [
+    [50.40113235969953, 30.636320114135746],
+    [50.40229833588288, 30.635842680931095],
+    [50.40186127766596, 30.633035578844378],
+    [50.40334119350525, 30.632575750350956],
+    [50.40533452635472, 30.631309747695926],
+  ];
 
   return (
     <div className="App">
-      <div
-        className="App__sidebar d-flex flex-column flex-shrink-0 p-3 text-black position-absolute z-2"
-      >
-        <h2 className="text-center pb-4">
-          Карта Інклюзивності
-        </h2>
-
-        <button
-          className="btn btn-secondary"
-          onClick={() => setActive(true)}
-        >
-          Знайти точку
-        </button>
-
-        {!active
-          ? (
-            <button
-              className="btn btn-secondary"
-              onClick={() => setActive(true)}
-            >
-              Прокласти звичайний маршрут
-            </button>
-          )
-          : (
-            <>
-              <div className="input-group input-group-sm mb-3">
-                <div className="input-group-prepend">
-                  <span className="input-group-text" id="inputGroup-sizing-sm">Звідки</span>
-                </div>
-                <input type="text" className="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
-              </div>
-
-              <div className="input-group input-group-sm mb-3">
-                <div className="input-group-prepend">
-                  <span className="input-group-text" id="inputGroup-sizing-sm">Куди</span>
-                </div>
-                <input type="text" className="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" />
-              </div>
-
-              <button
-                className="btn btn-secondary"
-                onClick={() => setActive(true)}
-              >
-                Прокласти
-              </button>
-            </>
-          )}
-
-        <button className="btn btn-primary">
-          Прокласти інклюзивний маршрут
-        </button>
-      </div>
       <MapContainer
-        center={[50.40131467149746, 30.63246659343737]}
+        center={mapCenter}
         zoom={16}
         scrollWheelZoom={true}
       >
+        <SideBar setVisiblePath={setVisiblePath} newPosition={newPosition} editedMark={editedMark} />
+
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+
+        {marks.map(mark => (
+          <Marker
+            key={mark.id}
+            alt={mark.name || "Точка інклюзивності"}
+            position={mark.coordinates}
+            icon={icons[mark.icon]}
+          >
+           <Popup>
+            {mark.name} <br />
+            {mark.address} <br />
+            Графік роботи: {mark.hours || 'відсутній'} <br />
+            <br />
+            {mark.features.map(feature => (
+              <React.Fragment key={feature}>
+                ✅ {feature} <br />
+              </React.Fragment>
+            ))}
+            <br />
+            Джерело: {mark.source}
+
+            <br />
+
+            <button
+              className="btn btn-secondary btn-sm mt-3"
+              onClick={() => setEditedMark(mark)}
+            >
+              Редагувати
+            </button>
+          </Popup>
+          </Marker>
+        ))}
+
         <Marker
-          alt="Інклюзивне Сільпо"
-          position={[50.40541083251623, 30.63147954054484]}
+          alt="Старт"
+          position={startPosition}
         >
           <Popup>
-            Сільпо <br />
-            Київ, Просп. Григоренка Петра, 23 <br />
-            Графік роботи: 07:30-23:00 <br />
-            <br />
-            ✅ Вхід в рівень з тротуаром <br />
-            ✅ Пандус <br />
-            <br />
-            Джерело: Сільпо
+            Стартова точка
           </Popup>
         </Marker>
 
-        <Marker
-          alt="Інклюзивний світлофор"
-          position={[50.40186127766596, 30.633035578844378]}
-        >
-          <Popup>
-            Світлофорні обʼєкти, на яких реалізовані заходи безбар`єрного середовища <br />
-            <br />
-            ✅ Понижений бордюр <br />
-            ✅ Тактильна плитка <br />
-            ✅ Світлофор зі звуковим сигналом <br />
-            <br />
-            Джерело: Департамент транспортної інфраструктури
-          </Popup>
-        </Marker>
-        <LocationMarker />
+        <LocationMarker
+          setPosition={setNewPosition}
+          newPosition={newPosition}
+        />
+
+        {visiblePath['regular'] && (
+          <Polyline
+            pathOptions={{ color: '#CD5C5C', weight: 8, }}
+            positions={regularPath}
+          />
+        )}
+
+        {visiblePath['inclusive'] && (
+          <Polyline
+            pathOptions={{ color: '#2E8B57', weight: 8, }}
+            positions={inclusivePath}
+          />
+        )}
       </MapContainer>
     </div>
   )

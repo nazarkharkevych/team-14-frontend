@@ -29,6 +29,10 @@ const config = {
           'css-loader',
           'sass-loader'
         ]
+      },
+      {
+        test: /\.svg$/,
+        use: 'file-loader'
       }
     ]
   },

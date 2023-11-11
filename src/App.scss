@@ -12,6 +12,7 @@
     height: 100%;
 
     background: rgba($color: #fff, $alpha: .7);
+    z-index: 100 !important;
   }
 
   & .leaflet-control-zoom {
@@ -20,7 +21,22 @@
     top: 30vh;
   }
 
+  & .leaflet-pane {
+    z-index: 10;
+  }
+
   & button {
     margin-bottom: 20px;
+  }
+
+  & .center-btn {
+    border: none;
+    background: none;
+    width: 100%;
+
+    border-radius: 10px;
+    margin: 0;
+
+    text-align: left;
   }
 }
