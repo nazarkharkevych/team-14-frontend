@@ -5,7 +5,6 @@ import './App.scss'
 import { MapContainer, TileLayer, Polyline, Marker, Popup } from 'react-leaflet'
 import LocationMarker from "./components/LocationMarker";
 import SideBar from "./components/Sidebar";
-// import marks from './marks.json';
 import icons from './images/incons';
 
 const App = () => {
@@ -45,13 +44,13 @@ const App = () => {
 
   return (
     <div className="App">
+    <SideBar setVisiblePath={setVisiblePath} newPosition={newPosition} editedMark={editedMark} marks={marks} />
+
       <MapContainer
         center={mapCenter}
         zoom={16}
         scrollWheelZoom={true}
       >
-        <SideBar setVisiblePath={setVisiblePath} newPosition={newPosition} editedMark={editedMark} marks={marks} />
-
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

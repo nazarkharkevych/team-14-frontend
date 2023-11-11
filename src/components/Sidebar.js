@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useMemo, useEffect } from 'react';
 import Form from './Form';
-import CenterMap from './CenterMap';
 
 function SideBar({ setVisiblePath, newPosition, editedMark, marks }) {
   const [input, setInput] = useState('');
@@ -21,16 +20,6 @@ function SideBar({ setVisiblePath, newPosition, editedMark, marks }) {
   const onChangeInput = (e) => {
     setInput(e.target.value);
   };
-
-  // useEffect(() => {
-  //   const bar = document.querySelector('.App__sidebar');
-  
-  //   // bar.addEventListener('click', (e) => {
-  //   //   if (e.target.type !== 'checkbox') {
-  //   //     e.stopPropagation();
-  //   //   }
-  //   // })
-  // }, []);
 
   return (
     <div
@@ -55,7 +44,9 @@ function SideBar({ setVisiblePath, newPosition, editedMark, marks }) {
         <ul>
           {filteredMarks.map(mark => (
             <li key={mark.id}>
-              <CenterMap mark={mark} />
+              <button type='button'>
+                {mark.name + ' ' + mark.address}
+              </button>
             </li>
           ))}
         </ul>
