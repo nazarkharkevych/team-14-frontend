@@ -6,6 +6,7 @@ import { MapContainer, TileLayer, Polyline, Marker, Popup } from 'react-leaflet'
 import LocationMarker from "./components/LocationMarker";
 import SideBar from "./components/Sidebar";
 import icons from './images/incons';
+// import marks from './marks.json';
 
 const App = () => {
   const [visiblePath, setVisiblePath] = useState({
@@ -58,10 +59,10 @@ const App = () => {
 
         {marks.length && marks.map(mark => (
           <Marker
-            key={mark.id}
+            key={mark['_id']}
             alt={mark.name || "Точка інклюзивності"}
             position={mark.coordinates}
-            icon={icons[mark.icon]}
+            icon={icons[mark.icon || 'iconTraffic']}
           >
            <Popup>
             {mark.name} <br />
