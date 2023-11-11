@@ -9,8 +9,7 @@ function SideBar({ setVisiblePath, newPosition, editedMark, marks }) {
   const filteredMarks = useMemo(() => {
     return marks.filter(({ name, address, description }) => {
       if (name.includes(input)
-        || address.includes(input)
-        || description.includes(input)) {
+        || address.includes(input)) {
         return true;
       }
 
