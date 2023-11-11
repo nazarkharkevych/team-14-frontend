@@ -11,7 +11,7 @@ const initBoxes = {
   'Вбиральня для людей з інвалідністю': false,
 };
 
-const Form = ({ newPosition }) => {
+const FormUpdate = ({ editedMark }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [features, setFeatures] = useState(initBoxes);
@@ -27,14 +27,11 @@ const Form = ({ newPosition }) => {
     e.preventDefault();
 
     fetch('https://team-14-backend-production-dd0b.up.railway.app/api/points/', {
-      method: 'post',
+      method: 'patch',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
         name: name,
-        address: '',
-        hours: '',
         description: description,
-        source: 'User',
         features: Object.entries(features).filter(([key, value]) => {
           if (value) {
             return true
@@ -42,8 +39,6 @@ const Form = ({ newPosition }) => {
 
           return false
         }).map(entrie => entrie[0]),
-        icon: "iconLandmark",
-        coordinates: [newPosition.lat, newPosition.lng]
        })
     })
     .then(res => console.log(res))
@@ -56,12 +51,20 @@ const Form = ({ newPosition }) => {
   }
 
   useEffect(() => {
-    if (newPosition) {
-      setName('');
-      setDescription('');
-      setFeatures(initBoxes);
+    if (editedMark) {
+      setName(editedMark.name);
+      setDescription(editedMark.description);
+      setFeatures(prev => {
+        const res = {...initBoxes};
+
+        for(const param of editedMark.features) {
+          res[param] = !res[param]
+        }
+
+        return res;
+      })
     }
-  }, [newPosition]);
+  }, [editedMark]);
 
   return (
       <form onSubmit={handleSubmit}>
@@ -147,4 +150,4 @@ const Form = ({ newPosition }) => {
   )
 }
 
-export default Form;
+export default FormUpdate;

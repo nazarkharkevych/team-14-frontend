@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useMemo, useEffect } from 'react';
 import Form from './Form';
+import FormUpdate from './FormUpdate';
 
 function SideBar({ setVisiblePath, newPosition, editedMark, marks }) {
   const [input, setInput] = useState('');
@@ -81,13 +82,23 @@ function SideBar({ setVisiblePath, newPosition, editedMark, marks }) {
         Прокласти інклюзивний маршрут
       </button>
 
-      {(newPosition || editedMark) && (
+      {newPosition && (
         <>
           <h2 className='text-center mb-3'>
             Додати мітку
           </h2>
 
-          <Form editedMark={editedMark} newPosition={newPosition}/>
+          <Form newPosition={newPosition}/>
+        </>
+      )}
+
+      {editedMark && (
+        <>
+          <h2 className='text-center mb-3'>
+            Змінити мітку
+          </h2>
+
+          <FormUpdate editedMark={editedMark}/>
         </>
       )}
     </div>
