@@ -26,10 +26,11 @@ const FormUpdate = ({ editedMark }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('https://team-14-backend-production-dd0b.up.railway.app/api/points/', {
-      method: 'patch',
+    fetch('https://team-14-backend-production-dd0b.up.railway.app/api/points/update', {
+      method: 'post',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
+        id: editedMark['_id'],
         name: name,
         description: description,
         features: Object.entries(features).filter(([key, value]) => {

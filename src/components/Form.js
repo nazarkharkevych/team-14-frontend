@@ -30,9 +30,9 @@ const Form = ({ newPosition }) => {
       method: 'post',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
-        name: name,
-        address: '',
-        hours: '',
+        name: name || 'newMark',
+        address: [newPosition.lat, newPosition.lng].join(', '),
+        hours: 'always',
         description: description,
         source: 'User',
         features: Object.entries(features).filter(([key, value]) => {
