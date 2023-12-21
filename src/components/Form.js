@@ -20,7 +20,7 @@ const Form = ({ newPosition }) => {
     setFeatures(prev => ({
       ...prev,
       [e.target.name]: e.target.checked
-    }))
+    }));
   }
 
   const handleSubmit = (e) => {

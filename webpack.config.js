@@ -8,6 +8,11 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
   },
+  resolve: {
+    fallback: {
+      fs: false
+    }
+  },
   module: {
     rules: [
       {

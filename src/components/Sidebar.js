@@ -7,14 +7,15 @@ function SideBar({ setVisiblePath, newPosition, editedMark, marks }) {
   const [input, setInput] = useState('');
 
   const filteredMarks = useMemo(() => {
-    return marks.filter(({ name, address, description }) => {
-      if (name.includes(input)
-        || address.includes(input)) {
-        return true;
-      }
+    return [];
+    // return marks.filter(({ name, address, description }) => {
+    //   if (name.includes(input)
+    //     || address.includes(input)) {
+    //     return true;
+    //   }
 
-      return false; 
-    })
+    //   return false; 
+    // })
   }, [input, marks]);
 
   const onChangeInput = (e) => {
@@ -50,10 +51,10 @@ function SideBar({ setVisiblePath, newPosition, editedMark, marks }) {
         </ul>
 
         <button
-            className="btn btn-success w-100"
-            onClick={() => {}}
-          >
-            Шукати
+          className="btn btn-success w-100"
+          onClick={() => {}}
+        >
+          Шукати
         </button>
       </div>
 
@@ -61,10 +62,10 @@ function SideBar({ setVisiblePath, newPosition, editedMark, marks }) {
         type="button"
         className="btn btn-success w-100"
         onClick={() => {
-          setVisiblePath((prev) => ({
-            ...prev,
-            regular: true
-          }))
+          // setVisiblePath((prev) => ({
+          //   ...prev,
+          //   regular: true
+          // }))
         }}
       >
         Прокласти звичайний маршрут
@@ -73,10 +74,12 @@ function SideBar({ setVisiblePath, newPosition, editedMark, marks }) {
       <button
         type="button"
         className="btn btn-primary"
-        onClick={() => setVisiblePath(prev => ({
-          ...prev,
-          inclusive: true
-        }))}
+        onClick={() => {
+          // setVisiblePath(prev => ({
+          //   ...prev,
+          //   inclusive: true
+          // }))
+        }}
       >
         Прокласти інклюзивний маршрут
       </button>
